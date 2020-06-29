@@ -22,11 +22,13 @@ let photoRegExp = /\.(jpg|jpeg|png|gif)$/;
 app.use(cors());
 app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: false }));
-console.log(__dirname)
-app.use(express.static(__dirname + "/"));
-app.use('/Clases', serveIndex(__dirname + '/Clases'));
+app.use('/Clases', express.static(__dirname + "/Clases"));
 app.use(bodyParser.json());
 
+// app.get('/Clases/:uid/', (req, res, next) => {
+//     const uid = req.params.uid;
+//     console.log(uid);
+// });
 
 app.post('/initFolder', (req, res) => {
     const uid = req.body.uid;
