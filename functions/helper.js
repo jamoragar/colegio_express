@@ -38,20 +38,25 @@ module.exports = {
 
         try{
             let items = await readdirAsync(targetDir);
-            let filteredItems = [];
+            let files = [];
             if(items !== undefined){
                 for(let i = 0; i<items.length; i++){
                     let item = items[i];
                     if(items[i].match(regExp)){
-                        filteredItems.push(`${API}/${targetDir}/${item}`);
+                        files.push(
+                            {
+                                modified_date: fs.statSync(`${targetDir}/${item}`).mtime,
+                                url: `${API}/${targetDir}/${item}`
+                            }
+                        );
                     }
                 }
             }
             return {
                 tag: dir_name,
                 title: `${targetDir}/${title}`,
-                files: filteredItems,
-                uid: uid
+                files,
+                uid: uid,
             };
         }catch(e){
             console.log(e);
