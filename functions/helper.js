@@ -6,7 +6,7 @@ const directoryRoot = path.join('./', 'Clases');
 
 const readdirAsync = util.promisify(fs.readdir);
 
-const API = 'http://localhost:9000';
+const API = 'http://186.103.189.220:9000';
 module.exports = {
     CreatingDirectory: uid =>{
         const userId = uid;
