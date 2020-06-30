@@ -4,12 +4,16 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const path = require('path');
 const http = require('http');
+const https = require('https');
 const serveIndex = require('serve-index');
 const fileUpload = require('express-fileupload');
 const moment = require('moment');
 const fs = require('fs');
 const app = express();
 const directoryRoot = path.join('./', 'Clases');
+
+const port = 9000;
+
 
 let httpServer = http.createServer(app);
 
@@ -30,6 +34,10 @@ app.use(function(req, res, next) {
     next();
   });
 
+  const httpsOptions = {
+    key: fs.readFileSync('./security/cert.key'),
+    cert: fs.readFileSync('./security/cert.pem')
+}
 // app.get('/Clases/:uid/', (req, res, next) => {
 //     const uid = req.params.uid;
 //     console.log(uid);
@@ -103,12 +111,17 @@ app.post('/upload', (req, res) => {
 });
 
 if(require.main === module){
-    var server = app.listen(9000, () => {
+
+    https.createServer(httpsOptions, app)
+    .listen(port, () => {
+        console.log('server running at ' + port)
+    })
+    // var server = app.listen(9000, () => {
     
-        var host = server.address().address
-        var port = server.address().port
+    //     var host = server.address().address
+    //     var port = server.address().port
     
-        console.log("Example app listening at http://%s:%s", host, port)
+    //     console.log("Example app listening at http://%s:%s", host, port)
     
-    });
+    // });
 }
